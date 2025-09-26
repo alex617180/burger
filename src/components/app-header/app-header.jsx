@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { BurgerIcon, ListIcon, Logo, ProfileIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import BurgerConstructor from '../burger-constructor/burger-constructor';
+import BurgerIngredients from '../burger-ingredients/burger-ingredients';
 
 
 export default function AppHeader(){
-    const [activeSection, setActiveSection] = useState(null);
+    const [activeSection, setActiveSection] = useState('burger-constructor');
     return (
     <div className="font-sans">
         {/* Фиксированная шапка */}
@@ -29,7 +29,7 @@ export default function AppHeader(){
                             Лента заказов
                         </button>
                         </li>
-                    <li><Logo /></li>
+                    <li className="ml-10 mr-25"><Logo /></li>
                     <li className="flex items-center gap-2">
                         <ProfileIcon type={activeSection === "personal-account" ? "primary" : "secondary"} />
                         <button onClick={() => setActiveSection("personal-account")}
@@ -45,7 +45,7 @@ export default function AppHeader(){
     
         <main className="max-w-5xl mx-auto px-4">
             {activeSection === "burger-constructor" && (<section className="scroll-mt-16 py-8">
-                <BurgerConstructor />
+                <BurgerIngredients />
             </section>)}
 
             {activeSection === "order-feed" && (<section className="scroll-mt-16 py-8">
