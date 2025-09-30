@@ -1,12 +1,11 @@
 import { Button, ConstructorElement, CurrencyIcon, DragIcon} from '@ya.praktikum/react-developer-burger-ui-components'
-import { ingredients } from '../../utils/data';
 
 
-function BurgerConstructor (){
+function BurgerConstructor (props){
     return (
         <>
             <div className="h-[70vh] overflow-y-auto pr-2 mt-20">
-                {ingredients.map((ingredient, index) => (
+                {props.ingredients.map((ingredient, index) => (
                     <div
                     key={index}
                     className="flex flex-col gap-2 mb-2"
