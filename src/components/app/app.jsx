@@ -16,18 +16,31 @@ function App(){
     function setActiveSection(section){
         setState({...state, activeSection: section})
     }
-
-    function getIngredients(){
-        setState({...state, isLoading:true})
-        fetch(apiUrlIngredients)
-            .then(res => res.json())
-            .then(data => setState({...state, ingredientsData: data.data, isLoading: false}))
-            .catch(error => setState({...state, hasError: true, isLoading:false}));
-    }
-
+    
     useEffect(()=>{
+        const getIngredients= async() => {
+            setState(prev => ({...prev, isLoading:true, hasError:false}))
+            try {
+                const result = await fetch(apiUrlIngredients);
+                if (!result.ok) throw new Error(`Ошибка http: ${result.status}`);
+                    
+                const data = await result.json();
+                setState(prev => ({
+                    ...prev,
+                    ingredientsData: data.data ?? [],
+                    isLoading: false,
+                }))
+            } catch (error) {
+                console.error(error);
+                setState(prev => ({
+                    ...prev,
+                    isLoading: false,
+                    hasError: true,
+                }));
+            }
+        }
         getIngredients();        
-    }, [])
+    }, [apiUrlIngredients])
 
     return (
         <div className="App">
@@ -40,9 +53,7 @@ function App(){
                     {state.activeSection === "burger-constructor" && (<section className="scroll-mt-16 py-8">
                         {state.isLoading && 'Загрузка...'}
                         {state.hasError && 'Произошла ошибка, обновите страницу. Если после 3 попыток проблема не исчезнет, то закройте вкладку и не возвращайтесь.'}
-                        {!state.isLoading &&
-                            !state.hasError &&
-                            state.ingredientsData.length &&                                
+                        {!state.isLoading && !state.hasError && state.ingredientsData.length &&                                
                             (<div className="flex h-screen">
                                 {/* Левая половина */}
                                 <div className="w-1/2 flex flex-col">
