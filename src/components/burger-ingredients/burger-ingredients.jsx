@@ -1,14 +1,22 @@
-import React from 'react';
+import { useRef, useState } from 'react';
 import { Counter, CurrencyIcon, Tab } from '@ya.praktikum/react-developer-burger-ui-components';
+import IngredientDetails from './ingredient-details';
+import Modal from '../modal/modal';
 
 export default function BurgerIngredients (props){
-    const [current, setCurrent] = React.useState('rolls');
+    const [current, setCurrent] = useState('rolls');
+    const [selectedIngredient, setSelectedIngredient] = useState(null);
+
+    const modalFocusRef = useRef(null);
 
     const typeByTab = {
         rolls: 'bun',
         souces: 'sauce',
         fillings: 'main',
     };
+
+    const openIngredientModal = ingredient => setSelectedIngredient(ingredient);
+    const closeIngredientModal = () => setSelectedIngredient(null);
 
     const visibleIngredients = props.ingredients.filter((item) => item.type === typeByTab[current]);
 
@@ -36,8 +44,9 @@ export default function BurgerIngredients (props){
                 <div className="grid grid-cols-2 gap-6">
                     {visibleIngredients.map((ingredient) => (
                         <article
-                        key={ingredient._id}
-                        className="relative flex flex-col items-center p-3 rounded-xl bg-zinc-800/70 hover:bg-zinc-800 transition"
+                            key={ingredient._id}
+                            className="relative flex flex-col items-center p-3 rounded-xl bg-zinc-800/70 hover:bg-zinc-800 transition"
+                            onClick={() => openIngredientModal(ingredient)}
                         >
                         {/* Счётчик в углу */}
                         <Counter
@@ -64,6 +73,15 @@ export default function BurgerIngredients (props){
                     ))}
                 </div>
             </div>
+
+            <Modal
+                isOpen={!!selectedIngredient}
+                onClose={closeIngredientModal}
+                title="Детали ингредиента"
+                modalFocusRef={modalFocusRef}
+            >
+                <IngredientDetails ingredient={selectedIngredient} />
+            </Modal>
         </>
     );
 }
