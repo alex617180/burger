@@ -38,18 +38,18 @@ function App(){
                 {/* Фиксированная шапка */}
                 <AppHeader setActiveSection={setActiveSection} activeSection={activeSection}/>
             
-                <main className="max-w-5xl mx-auto px-4">
+                <main className="mx-auto w-full max-w-screen-2xl px-6 lg:px-10">
                     {activeSection === "burger-constructor" && (<section className="scroll-mt-16 py-8">
                         {isLoading && 'Загрузка...'}
                         {hasError && 'Произошла ошибка, обновите страницу. Если после 3 попыток проблема не исчезнет, то закройте вкладку и не возвращайтесь.'}
                         {!isLoading && !hasError && ingredientsData.length > 0 &&
-                            (<div className="flex h-screen">
+                            (<div className="flex flex-col gap-10 xl:flex-row xl:h-screen">
                                 {/* Левая половина */}
-                                <div className="w-1/2 flex flex-col">
+                                <div className="flex flex-col xl:w-1/2">
                                     <BurgerIngredients ingredients={ingredientsData} />
                                 </div>
                                 {/* Правая половина */}
-                                <div className="w-1/2 p-5">
+                                <div className="p-5 xl:w-1/2 xl:min-w-[580px]">
                                     <BurgerConstructor currentIngredients={ingredientsData} />
                                 </div>
                             </div>)
