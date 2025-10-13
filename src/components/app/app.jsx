@@ -50,7 +50,7 @@ function App(){
                                 </div>
                                 {/* Правая половина */}
                                 <div className="w-1/2 p-5">
-                                    <BurgerConstructor currentIngredients={ingredientsData} orderData={{}} />
+                                    <BurgerConstructor currentIngredients={ingredientsData} />
                                 </div>
                             </div>)
                         }
